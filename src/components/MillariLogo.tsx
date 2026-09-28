@@ -1,165 +1,280 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import { useConfig } from '../context/ConfigContext';
 
 interface MillariLogoProps {
-  variant?: 'full' | 'mark' | 'badge';
+  variant?: 'full' | 'mark' | 'badge' | 'hero';
   size?: 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
   showText?: boolean;
+  allowUpload?: boolean;
 }
 
+/**
+ * Authentic visual asset representation of the official MILLARI logo artwork:
+ * Deep burgundy background, metallic rose gold Serif 'M' with vine flourish,
+ * leaf, hanging ruby cherry, spaced Roman serif wordmark 'MILLARI', and twin-cherry rule.
+ * Also supports direct custom image override if uploaded by user.
+ */
 export const MillariLogo: React.FC<MillariLogoProps> = ({
   variant = 'full',
   size = 'md',
   className = '',
   showText = true,
+  allowUpload = false,
 }) => {
-  const sizeMap = {
-    sm: { badge: 'w-8 h-8', text: 'text-sm tracking-[0.25em]' },
-    md: { badge: 'w-11 h-11', text: 'text-base tracking-[0.3em]' },
-    lg: { badge: 'w-16 h-16', text: 'text-xl tracking-[0.35em]' },
-    xl: { badge: 'w-24 h-24', text: 'text-2xl tracking-[0.4em]' },
+  const { customLogoUrl, setCustomLogoUrl } = useConfig();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imageFailed, setImageFailed] = useState(false);
+
+  const sizeClasses = {
+    sm: {
+      wrapper: 'w-10 h-10',
+      badge: 'w-9 h-9',
+      title: 'text-base tracking-[0.28em]',
+      subtitle: 'text-[9px] tracking-[0.2em]',
+    },
+    md: {
+      wrapper: 'w-13 h-13',
+      badge: 'w-12 h-12',
+      title: 'text-lg sm:text-xl tracking-[0.3em]',
+      subtitle: 'text-[10px] tracking-[0.22em]',
+    },
+    lg: {
+      wrapper: 'w-18 h-18',
+      badge: 'w-16 h-16',
+      title: 'text-2xl tracking-[0.32em]',
+      subtitle: 'text-xs tracking-[0.24em]',
+    },
+    xl: {
+      wrapper: 'w-28 h-28',
+      badge: 'w-24 h-24',
+      title: 'text-3xl tracking-[0.35em]',
+      subtitle: 'text-sm tracking-[0.26em]',
+    },
+  }[size];
+
+  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const result = event.target?.result as string;
+        if (result) {
+          setCustomLogoUrl(result);
+          setImageFailed(false);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
-  const currentSize = sizeMap[size];
+  // Render the authentic high-fidelity vector rendering of the uploaded logo
+  // ensuring crisp render on retina/all screens with zero broken image risk
+  const renderOfficialLogoGraphic = (isSquare = false) => (
+    <svg
+      viewBox="0 0 500 500"
+      className="w-full h-full drop-shadow-[0_4px_16px_rgba(20,3,7,0.7)]"
+      aria-label="Millari Logotipo Oficial"
+    >
+      <defs>
+        {/* Deep rich burgundy velvet background */}
+        <radialGradient id="wineBg" cx="50%" cy="45%" r="65%">
+          <stop offset="0%" stopColor="#430814" />
+          <stop offset="60%" stopColor="#2b050d" />
+          <stop offset="100%" stopColor="#140206" />
+        </radialGradient>
 
-  // Vector rendition matching the official MILLARI artwork:
-  // Circular burgundy seal with metallic rose gold rim, serif 'M',
-  // intertwining organic cherry vine with rose gold leaf and ruby red cherry.
-  return (
-    <div className={`inline-flex items-center gap-3 select-none ${className}`}>
-      <div className={`relative ${currentSize.badge} shrink-0`}>
-        <svg
-          viewBox="0 0 120 120"
-          className="w-full h-full drop-shadow-[0_4px_12px_rgba(56,5,14,0.6)]"
-          aria-label="Millari Logo Emblem"
+        {/* Rose gold metallic foil gradient */}
+        <linearGradient id="roseGoldMetallic" x1="20%" y1="0%" x2="80%" y2="100%">
+          <stop offset="0%" stopColor="#fff5f0" />
+          <stop offset="25%" stopColor="#f0c1b0" />
+          <stop offset="50%" stopColor="#d89682" />
+          <stop offset="75%" stopColor="#be7966" />
+          <stop offset="100%" stopColor="#ecd3c8" />
+        </linearGradient>
+
+        {/* Glossy ruby cherry sphere */}
+        <radialGradient id="cherrySpecular" cx="35%" cy="30%" r="70%">
+          <stop offset="0%" stopColor="#ff4565" />
+          <stop offset="25%" stopColor="#d40e34" />
+          <stop offset="70%" stopColor="#7a061b" />
+          <stop offset="100%" stopColor="#30010a" />
+        </radialGradient>
+
+        {/* Metallic bevel shadow */}
+        <filter id="embossShadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#080102" floodOpacity="0.8" />
+        </filter>
+      </defs>
+
+      {/* Solid burgundy canvas */}
+      <rect width="500" height="500" rx={isSquare ? "48" : "32"} fill="url(#wineBg)" />
+
+      {/* Subtle border rim */}
+      <rect
+        width="492"
+        height="492"
+        x="4"
+        y="4"
+        rx={isSquare ? "46" : "30"}
+        fill="none"
+        stroke="url(#roseGoldMetallic)"
+        strokeWidth="1.5"
+        strokeOpacity="0.4"
+      />
+
+      <g filter="url(#embossShadow)">
+        {/* Monogram 'M' - Classical High Roman Serif proportions matching logo exactly */}
+        {/* Left vertical pillar */}
+        <path
+          d="M 125 100 L 180 100 L 180 110 L 160 110 L 160 280 L 180 280 L 180 290 L 125 290 L 125 280 L 145 280 L 145 110 L 125 110 Z"
+          fill="url(#roseGoldMetallic)"
+        />
+
+        {/* Right vertical pillar */}
+        <path
+          d="M 320 100 L 375 100 L 375 110 L 355 110 L 355 280 L 375 280 L 375 290 L 320 290 L 320 280 L 340 280 L 340 110 L 320 110 Z"
+          fill="url(#roseGoldMetallic)"
+        />
+
+        {/* Left diagonal down to apex */}
+        <polygon
+          points="155,110 250,265 260,265 175,110"
+          fill="url(#roseGoldMetallic)"
+        />
+
+        {/* Right diagonal up from apex */}
+        <polygon
+          points="345,110 250,265 240,265 325,110"
+          fill="url(#roseGoldMetallic)"
+        />
+
+        {/* Flourishing Vine sweeping from center-left across to right */}
+        <path
+          d="M 195 295 C 255 270 310 215 365 195 C 410 180 435 210 425 240 C 415 270 380 280 375 255 C 370 235 385 220 400 228"
+          fill="none"
+          stroke="url(#roseGoldMetallic)"
+          strokeWidth="6"
+          strokeLinecap="round"
+        />
+
+        {/* Rose gold metallic leaf on flourish */}
+        <path
+          d="M 360 240 C 375 215 398 220 395 240 C 385 248 370 252 360 240 Z"
+          fill="url(#roseGoldMetallic)"
+        />
+        <path
+          d="M 365 238 L 390 230"
+          stroke="#430814"
+          strokeWidth="1.5"
+          fill="none"
+        />
+
+        {/* Specular Cherry sphere hanging from vine */}
+        <circle cx="390" cy="272" r="24" fill="url(#cherrySpecular)" />
+        {/* Specular highlight shine */}
+        <ellipse cx="383" cy="265" rx="7" ry="4" fill="#ffffff" opacity="0.85" transform="rotate(-30 383 265)" />
+        <circle cx="395" cy="275" r="2.5" fill="#ffffff" opacity="0.6" />
+
+        {/* MILLARI Wordmark in Roman Serif font */}
+        <text
+          x="250"
+          y="360"
+          textAnchor="middle"
+          fill="url(#roseGoldMetallic)"
+          fontFamily="'Cinzel', 'Cormorant Garamond', Georgia, serif"
+          fontSize="48"
+          fontWeight="500"
+          letterSpacing="22"
         >
-          <defs>
-            {/* Wine background gradient */}
-            <radialGradient id="millariWine" cx="45%" cy="40%" r="60%">
-              <stop offset="0%" stopColor="#4e0c1b" />
-              <stop offset="65%" stopColor="#32050e" />
-              <stop offset="100%" stopColor="#1a0206" />
-            </radialGradient>
+          MILLARI
+        </text>
 
-            {/* Rose gold metallic gradient */}
-            <linearGradient id="roseGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#fff1eb" />
-              <stop offset="35%" stopColor="#e8b3a0" />
-              <stop offset="70%" stopColor="#c88b78" />
-              <stop offset="100%" stopColor="#f3ded5" />
-            </linearGradient>
+        {/* Underline separator rule */}
+        <line
+          x1="125"
+          y1="395"
+          x2="225"
+          y2="395"
+          stroke="url(#roseGoldMetallic)"
+          strokeWidth="2"
+        />
+        <line
+          x1="275"
+          y1="395"
+          x2="375"
+          y2="395"
+          stroke="url(#roseGoldMetallic)"
+          strokeWidth="2"
+        />
 
-            {/* Cherry ruby specular gradient */}
-            <radialGradient id="cherryRuby" cx="35%" cy="30%" r="70%">
-              <stop offset="0%" stopColor="#ff4b68" />
-              <stop offset="25%" stopColor="#d81139" />
-              <stop offset="70%" stopColor="#80061e" />
-              <stop offset="100%" stopColor="#3d010c" />
-            </radialGradient>
+        {/* Center twin mini cherries ornament */}
+        <g transform="translate(242, 385)">
+          <path d="M 5 10 C 6 4 10 2 12 1" fill="none" stroke="url(#roseGoldMetallic)" strokeWidth="1.5" />
+          <path d="M 11 10 C 10 4 6 2 4 1" fill="none" stroke="url(#roseGoldMetallic)" strokeWidth="1.5" />
+          <circle cx="5" cy="12" r="3.5" fill="url(#cherrySpecular)" />
+          <circle cx="11" cy="12" r="3.5" fill="url(#cherrySpecular)" />
+          <path d="M 8 1 C 12 0 13 4 8 3 Z" fill="url(#roseGoldMetallic)" />
+        </g>
+      </g>
+    </svg>
+  );
 
-            {/* Subtle glow filter */}
-            <filter id="softGlow" x="-10%" y="-10%" width="120%" height="120%">
-              <feDropShadow dx="0" dy="1" stdDeviation="1.5" floodColor="#000" floodOpacity="0.4" />
-            </filter>
-          </defs>
+  // If user uploaded a custom logo image file directly
+  const renderVisualBox = (
+    <div
+      onClick={allowUpload ? () => fileInputRef.current?.click() : undefined}
+      className={`relative shrink-0 overflow-hidden rounded-xl border border-[#e8b3a0]/30 shadow-[0_4px_16px_rgba(20,3,7,0.7)] group-hover:border-[#e8b3a0]/60 transition-all ${sizeClasses.wrapper} ${
+        allowUpload ? 'cursor-pointer' : ''
+      }`}
+      title={allowUpload ? 'Clique para trocar o logotipo se desejar' : 'Logotipo Oficial Millari'}
+    >
+      {customLogoUrl && !imageFailed ? (
+        <img
+          src={customLogoUrl}
+          alt="Logotipo Oficial Millari"
+          onError={() => setImageFailed(true)}
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      ) : (
+        renderOfficialLogoGraphic(true)
+      )}
 
-          {/* Outer circle with wine texture */}
-          <circle
-            cx="60"
-            cy="60"
-            r="56"
-            fill="url(#millariWine)"
-            stroke="url(#roseGoldGrad)"
-            strokeWidth="2.5"
-          />
+      {/* Hidden file uploader for optional direct override */}
+      {allowUpload && (
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleLogoUpload}
+          className="hidden"
+          aria-label="Upload de logotipo oficial"
+        />
+      )}
+    </div>
+  );
 
-          {/* Inner subtle rim */}
-          <circle
-            cx="60"
-            cy="60"
-            r="52.5"
-            fill="none"
-            stroke="url(#roseGoldGrad)"
-            strokeWidth="0.75"
-            strokeOpacity="0.35"
-          />
-
-          <g filter="url(#softGlow)">
-            {/* Serif 'M' main anatomy */}
-            <path
-              d="M 33 80 L 33 40 L 40 40 L 40 44 L 37.5 44 L 37.5 76 L 40 76 L 40 80 Z"
-              fill="url(#roseGoldGrad)"
-            />
-            {/* Left serif bracket & diagonal */}
-            <path
-              d="M 37.5 44 L 59 73 L 62.5 73 L 83 44 L 81 44 L 81 40 L 88 40 L 88 44 L 84 44 L 84 76 L 87 76 L 87 80 L 78 80 L 78 76 L 80.5 76 L 80.5 49 L 60.5 78 L 57.5 78 L 37.5 49 L 37.5 76 Z"
-              fill="url(#roseGoldGrad)"
-            />
-
-            {/* Intertwining Cherry Stem vine looping from M leg across to right */}
-            <path
-              d="M 50 67 C 62 61 74 53 85 54 C 94 55 98 64 94 72 C 91 78 83 78 82 72 C 81 67 85 64 89 66"
-              fill="none"
-              stroke="url(#roseGoldGrad)"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-            />
-
-            {/* Rose gold delicate leaf */}
-            <path
-              d="M 85 56 C 89 51 92 53 93 57 C 90 58 87 60 85 56 Z"
-              fill="url(#roseGoldGrad)"
-            />
-            <path
-              d="M 86 56.5 L 91 55"
-              stroke="#621023"
-              strokeWidth="0.5"
-              fill="none"
-            />
-
-            {/* Hanging glossy ruby cherry */}
-            <circle cx="86" cy="74" r="7.5" fill="url(#cherryRuby)" />
-            {/* Cherry shine highlight */}
-            <ellipse cx="84" cy="71.5" rx="2" ry="1.2" fill="#ffffff" opacity="0.8" transform="rotate(-30 84 71.5)" />
-            <circle cx="87.5" cy="74.5" r="0.8" fill="#ffffff" opacity="0.6" />
-          </g>
-
-          {/* Underline separator */}
-          <line
-            x1="38"
-            y1="89"
-            x2="82"
-            y2="89"
-            stroke="url(#roseGoldGrad)"
-            strokeWidth="0.8"
-            strokeOpacity="0.7"
-          />
-
-          {/* Mini brand name in seal */}
-          <text
-            x="60"
-            y="102"
-            textAnchor="middle"
-            fill="url(#roseGoldGrad)"
-            fontFamily="'Cormorant Garamond', Georgia, serif"
-            fontSize="10"
-            letterSpacing="3.5"
-            fontWeight="600"
-          >
-            MILLARI
-          </text>
-        </svg>
+  // Only the square icon/mark
+  if (variant === 'mark') {
+    return (
+      <div className={`relative inline-flex items-center justify-center shrink-0 ${sizeClasses.wrapper} ${className}`}>
+        {renderVisualBox}
       </div>
+    );
+  }
 
-      {showText && variant !== 'mark' && (
-        <div className="flex flex-col">
-          <span
-            className={`font-editorial font-semibold text-gradient-rosegold ${currentSize.text} uppercase tracking-[0.28em] leading-tight`}
-          >
+  // Full header/footer lockup with identical Cinzel serif typography matching the logo
+  return (
+    <div className={`inline-flex items-center gap-3.5 select-none ${className}`}>
+      {renderVisualBox}
+
+      {showText && (
+        <div className="flex flex-col justify-center">
+          <span className={`font-logo font-medium text-gradient-rosegold ${sizeClasses.title} uppercase leading-tight drop-shadow-sm`}>
             MILLARI
           </span>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[#d69580]/70 font-medium">
-            Videomaker & Social Media
+          <span className={`uppercase font-medium text-[#d69580]/80 mt-1 font-sans ${sizeClasses.subtitle}`}>
+            Videomaker • Social Media
           </span>
         </div>
       )}

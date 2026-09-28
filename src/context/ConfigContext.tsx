@@ -8,6 +8,8 @@ interface ConfigContextType {
   profilePhotoUrl: string;
   setProfilePhotoUrl: (url: string) => void;
   isPhotoConfigured: boolean;
+  customLogoUrl: string;
+  setCustomLogoUrl: (url: string) => void;
   getWhatsAppUrl: (message?: string) => string;
   isChecklistOpen: boolean;
   setIsChecklistOpen: (open: boolean) => void;
@@ -25,6 +27,10 @@ export const ConfigProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const [profilePhotoUrl, setProfilePhotoUrlState] = useState<string>(() => {
     return localStorage.getItem('millari_photo_url') || '/La_La.jpg';
+  });
+
+  const [customLogoUrl, setCustomLogoUrlState] = useState<string>(() => {
+    return localStorage.getItem('millari_custom_logo') || '';
   });
 
   const [isChecklistOpen, setIsChecklistOpen] = useState(false);
@@ -45,6 +51,15 @@ export const ConfigProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       localStorage.setItem('millari_photo_url', url.trim());
     } else {
       localStorage.removeItem('millari_photo_url');
+    }
+  };
+
+  const setCustomLogoUrl = (url: string) => {
+    setCustomLogoUrlState(url);
+    if (url.trim()) {
+      localStorage.setItem('millari_custom_logo', url.trim());
+    } else {
+      localStorage.removeItem('millari_custom_logo');
     }
   };
 
@@ -74,6 +89,8 @@ export const ConfigProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         profilePhotoUrl,
         setProfilePhotoUrl,
         isPhotoConfigured,
+        customLogoUrl,
+        setCustomLogoUrl,
         getWhatsAppUrl,
         isChecklistOpen,
         setIsChecklistOpen,
