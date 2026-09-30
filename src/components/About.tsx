@@ -4,8 +4,8 @@ import { MillariLogo } from './MillariLogo';
 import { SITE_CONFIG } from '../config/siteData';
 import { useConfig } from '../context/ConfigContext';
 
-// Imagem oficial permanente da Equipe Millari (estética cinematográfica editorial de alta qualidade)
-const OFFICIAL_TEAM_PHOTO = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1000&q=85';
+// Imagem oficial permanente da Equipe Millari (fotografia original das criadoras)
+const OFFICIAL_TEAM_PHOTO = '/assets/equipe-millari.jpg';
 
 export const About: React.FC = () => {
   const { getWhatsAppUrl } = useConfig();
@@ -39,8 +39,8 @@ export const About: React.FC = () => {
                       className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                       loading="lazy"
                     />
-                    {/* Editorial vignette gradient overlays */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#120306] via-[#120306]/35 to-transparent opacity-90 pointer-events-none" />
+                    {/* Editorial vignette gradient overlays - subtle at bottom to keep faces and badges clear */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#120306] via-[#120306]/20 to-transparent opacity-80 pointer-events-none" />
                     <div className="absolute inset-0 ring-1 ring-inset ring-[#e8b3a0]/25 rounded-3xl pointer-events-none" />
                   </div>
                 ) : (
