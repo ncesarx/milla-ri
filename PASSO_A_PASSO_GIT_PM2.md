@@ -119,6 +119,9 @@ server {
     listen 80;
     server_name millari.seudominio.com.br; # ou seu domínio/subdomínio
 
+    # Permitir upload de foto de alta resolução (até 30MB)
+    client_max_body_size 30M;
+
     location / {
         proxy_pass http://127.0.0.1:3000; # Use a porta definida no PM2
         proxy_http_version 1.1;

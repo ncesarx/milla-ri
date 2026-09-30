@@ -1,31 +1,15 @@
-import React, { useRef, useState } from 'react';
-import { Camera, MapPin, Heart, Sparkles, Instagram, ArrowUpRight, Upload, CheckCircle2, RefreshCw } from 'lucide-react';
+import React, { useState } from 'react';
+import { MapPin, Sparkles } from 'lucide-react';
 import { MillariLogo } from './MillariLogo';
 import { SITE_CONFIG } from '../config/siteData';
 import { useConfig } from '../context/ConfigContext';
 
-export const About: React.FC = () => {
-  const { getWhatsAppUrl, profilePhotoUrl, setProfilePhotoUrl } = useConfig();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imageError, setImageError] = useState(false);
-  const [uploadSuccess, setUploadSuccess] = useState(false);
+// Imagem oficial permanente da Equipe Millari (estética cinematográfica editorial de alta qualidade)
+const OFFICIAL_TEAM_PHOTO = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1000&q=85';
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const result = event.target?.result as string;
-        if (result) {
-          setProfilePhotoUrl(result);
-          setImageError(false);
-          setUploadSuccess(true);
-          setTimeout(() => setUploadSuccess(false), 3000);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+export const About: React.FC = () => {
+  const { getWhatsAppUrl } = useConfig();
+  const [imageError, setImageError] = useState(false);
 
   return (
     <section id="sobre" className="py-20 md:py-28 bg-[#150308] relative border-t border-[#e8b3a0]/10 overflow-hidden">
@@ -34,7 +18,7 @@ export const About: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Column 1: Portrait Space (5 cols) */}
+          {/* Column 1: Portrait Space (5 cols) - Imagem fixa permanente sem opção de upload */}
           <div className="lg:col-span-5 flex justify-center">
             <div className="relative w-full max-w-md">
               {/* Outer decorative rose gold border & offset shadow */}
@@ -45,75 +29,56 @@ export const About: React.FC = () => {
                   style={{ backgroundSize: '20px 20px' }}
                 />
 
-                {/* Real Photo Layer */}
-                {!imageError && profilePhotoUrl ? (
+                {/* Real Permanent Photo Layer */}
+                {!imageError ? (
                   <div className="absolute inset-0 z-0 overflow-hidden">
                     <img
-                      src={profilePhotoUrl}
-                      alt="Milla e equipe Millari - Videomaker e Criadora de Conteúdo em Piquete/SP"
+                      src={OFFICIAL_TEAM_PHOTO}
+                      alt="Equipe Millari - Videomaker e Criação de Conteúdo em Piquete/SP"
                       onError={() => setImageError(true)}
-                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
                     />
                     {/* Editorial vignette gradient overlays */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#120306] via-[#120306]/30 to-transparent opacity-85 pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#120306] via-[#120306]/35 to-transparent opacity-90 pointer-events-none" />
                     <div className="absolute inset-0 ring-1 ring-inset ring-[#e8b3a0]/25 rounded-3xl pointer-events-none" />
                   </div>
                 ) : (
-                  /* Stylized Vector Portrait Fallback representing the two creators in black blazers & burgundy shirts */
+                  /* Stylized Vector Portrait Fallback */
                   <div className="absolute inset-0 z-0 flex flex-col items-center justify-center p-6 text-center bg-gradient-to-b from-[#320610] to-[#120306]">
                     <div className="relative w-28 h-28 mb-4">
-                      {/* Stylized Duo Silhouette */}
                       <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-md">
                         <circle cx="36" cy="35" r="16" fill="#e8b3a0" opacity="0.9" />
                         <path d="M 20 75 C 20 54 52 54 52 75 Z" fill="#200409" stroke="#e8b3a0" strokeWidth="1.5" />
                         <circle cx="64" cy="30" r="15" fill="#f5d4c8" opacity="0.95" />
                         <path d="M 48 75 C 48 50 80 50 80 75 Z" fill="#150206" stroke="#e8b3a0" strokeWidth="1.5" />
-                        {/* Ring Light */}
                         <circle cx="84" cy="28" r="10" fill="none" stroke="#f5d4c8" strokeWidth="2.5" />
-                        {/* Mic */}
                         <rect x="34" y="55" width="4" height="12" rx="2" fill="#d69580" />
                         <circle cx="36" cy="53" r="3.5" fill="#c01235" />
                       </svg>
                     </div>
 
                     <p className="font-editorial text-xl text-white font-medium">
-                      Fotografia Oficial
+                      Equipe Millari
                     </p>
                     <p className="text-xs text-[#e8b3a0]/80 mt-1 max-w-xs">
-                      Milla & Criadoras · Videomaker, Áudio & Iluminação Profissional
+                      Videomaker, Áudio & Iluminação Profissional
                     </p>
-
-                    <button
-                      onClick={() => fileInputRef.current?.click()}
-                      className="mt-4 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#8e0e25] hover:bg-[#a5122e] text-xs font-semibold text-white shadow-md transition-colors"
-                    >
-                      <Upload className="w-3.5 h-3.5" />
-                      <span>Carregar La_La.jpg</span>
-                    </button>
                   </div>
                 )}
 
-                {/* Top Corner Emblem & Status */}
+                {/* Top Corner Emblem */}
                 <div className="relative z-10 p-5 flex items-center justify-between">
-                  <div className="bg-[#120306]/75 backdrop-blur-md px-3 py-1 rounded-full border border-[#e8b3a0]/30 shadow-md">
+                  <div className="bg-[#120306]/75 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#e8b3a0]/30 shadow-md">
                     <MillariLogo variant="mark" size="sm" />
                   </div>
-
-                  <button
-                    onClick={() => fileInputRef.current?.click()}
-                    title="Alterar ou atualizar fotografia oficial"
-                    className="p-2 rounded-full bg-[#120306]/80 hover:bg-[#8e0e25] text-[#e8b3a0] hover:text-white border border-[#e8b3a0]/30 transition-all backdrop-blur-md shadow-md"
-                    aria-label="Alterar ou carregar fotografia"
-                  >
-                    <Camera className="w-4 h-4" />
-                  </button>
                 </div>
 
                 {/* Bottom Card Identity & Badge */}
                 <div className="relative z-10 p-6 space-y-2 text-center mt-auto">
                   <div className="space-y-0.5">
                     <p className="font-editorial text-2xl sm:text-3xl text-white font-medium tracking-tight drop-shadow-md">
-                      Milla & Equipe
+                      Equipe Millari
                     </p>
                     <p className="text-xs text-[#e8b3a0] font-medium tracking-wider uppercase">
                       Videomaker & Criação de Conteúdo
@@ -124,23 +89,7 @@ export const About: React.FC = () => {
                     <MapPin className="w-3 h-3 text-[#e8b3a0]" />
                     <span>Piquete/SP & Vale do Paraíba</span>
                   </div>
-
-                  {uploadSuccess && (
-                    <div className="mt-2 text-[11px] text-emerald-400 font-medium flex items-center justify-center gap-1 bg-[#120306]/90 py-1 rounded">
-                      <CheckCircle2 className="w-3 h-3" /> Foto atualizada com sucesso!
-                    </div>
-                  )}
                 </div>
-
-                {/* Hidden File Input for Instant Direct Upload */}
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="hidden"
-                  aria-label="Upload de foto de perfil"
-                />
               </div>
             </div>
           </div>
@@ -164,69 +113,48 @@ export const About: React.FC = () => {
                 Com base de atuação em <strong className="font-medium text-[#e8b3a0]">Piquete/SP</strong> e disponibilidade para atendimento em cidades da região, o trabalho une técnica de captação cinematográfica, equipamentos dedicados (iluminação e microfonia de estúdio) e sensibilidade estética apurada para a linguagem contemporânea das redes.
               </p>
 
-              <p className="text-xs text-[#e8b3a0]/80 italic p-3 rounded-lg bg-[#1f040b] border border-[#e8b3a0]/15">
-                <span className="font-medium text-white">[Campo editável para a profissional]:</span>{' '}
-                Aqui você poderá complementar com seu nome completo, ano de formação ou marcos de sua trajetória, detalhando suas inspirações criativas antes de publicar oficialmente.
-              </p>
-
               <p>
-                O objetivo não é seguir fórmulas genéricas de agência, mas criar uma presença visual com personalidade, elegância e proximidade — gerando admiração e novos clientes para cada parceiro atendido.
+                O objetivo não é apenas gravar vídeos bonitos, mas criar um ecossistema de conteúdo que faça os clientes da sua cidade olharem para a sua marca com orgulho e desejo de consumo.
               </p>
             </div>
 
-            {/* Three Pillar Points */}
+            {/* Micro Pillars */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-[#e8b3a0]/15">
-              <div className="p-4 rounded-xl bg-[#1c040a] border border-[#e8b3a0]/15">
-                <Heart className="w-5 h-5 text-[#e8b3a0] mb-2" />
-                <h4 className="font-editorial text-base font-medium text-white">
-                  Proximidade Real
-                </h4>
-                <p className="text-xs text-[#f4ece8]/70 mt-1">
-                  Atendimento direto, humano e atento às particularidades do comércio local.
-                </p>
+              <div className="p-3.5 rounded-xl bg-[#24050d] border border-[#e8b3a0]/15 space-y-1">
+                <span className="text-[#e8b3a0] font-editorial text-lg font-medium">01. Autoria</span>
+                <p className="text-xs text-[#f4ece8]/75">Cada negócio tem sua identidade única, sem fórmulas repetidas.</p>
               </div>
 
-              <div className="p-4 rounded-xl bg-[#1c040a] border border-[#e8b3a0]/15">
-                <Camera className="w-5 h-5 text-[#e8b3a0] mb-2" />
-                <h4 className="font-editorial text-base font-medium text-white">
-                  Estética Autoral
-                </h4>
-                <p className="text-xs text-[#f4ece8]/70 mt-1">
-                  Cores, enquadramentos e ritmo pensados para destacar sua marca com sofisticação.
-                </p>
+              <div className="p-3.5 rounded-xl bg-[#24050d] border border-[#e8b3a0]/15 space-y-1">
+                <span className="text-[#e8b3a0] font-editorial text-lg font-medium">02. Técnica</span>
+                <p className="text-xs text-[#f4ece8]/75">Captação em alta resolução com áudio limpo e direção de cena.</p>
               </div>
 
-              <div className="p-4 rounded-xl bg-[#1c040a] border border-[#e8b3a0]/15">
-                <Sparkles className="w-5 h-5 text-[#e8b3a0] mb-2" />
-                <h4 className="font-editorial text-base font-medium text-white">
-                  Foco em Conexão
-                </h4>
-                <p className="text-xs text-[#f4ece8]/70 mt-1">
-                  Conteúdos que constroem lembrança duradoura, sem apelos artificiais.
-                </p>
+              <div className="p-3.5 rounded-xl bg-[#24050d] border border-[#e8b3a0]/15 space-y-1">
+                <span className="text-[#e8b3a0] font-editorial text-lg font-medium">03. Proximidade</span>
+                <p className="text-xs text-[#f4ece8]/75">Atendimento próximo e dedicado para comerciantes de Piquete e região.</p>
               </div>
             </div>
 
-            {/* Call to action & social link */}
-            <div className="pt-2 flex flex-col sm:flex-row items-center gap-4">
+            {/* Direct WhatsApp Call to Action */}
+            <div className="pt-2 flex flex-wrap items-center gap-4">
               <a
-                href={getWhatsAppUrl('Olá! Gostaria de conversar com a Milla para conhecer melhor a proposta da Millari.')}
+                href={getWhatsAppUrl("Olá Milla! Vi a história no site da Millari e gostaria de conversar sobre produção de vídeos para o meu negócio.")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 text-xs font-semibold text-[#120306] bg-gradient-to-r from-[#f5d4c8] to-[#e8b3a0] hover:brightness-105 rounded-lg shadow-md transition-all whitespace-nowrap"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#d69580] hover:bg-[#e8b3a0] text-[#120306] font-semibold text-sm transition-all shadow-[0_10px_25px_rgba(214,149,128,0.25)] hover:shadow-[0_12px_30px_rgba(214,149,128,0.4)]"
               >
-                <span>Conversar diretamente com a Milla</span>
+                <Sparkles className="w-4 h-4" />
+                <span>Conversar com a Criadora</span>
               </a>
 
               <a
                 href={SITE_CONFIG.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 text-xs font-medium text-[#e8b3a0] hover:text-white bg-[#24050d] hover:bg-[#350812] border border-[#e8b3a0]/25 rounded-lg transition-colors whitespace-nowrap"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#24050d] hover:bg-[#350812] text-[#f4ece8] text-sm border border-[#e8b3a0]/25 transition-colors"
               >
-                <Instagram className="w-4 h-4" />
-                <span>Seguir @milla.rii no Instagram</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
+                <span>Ver no Instagram</span>
               </a>
             </div>
           </div>

@@ -20,15 +20,11 @@ export const ChecklistModal: React.FC = () => {
     },
     {
       id: 2,
-      title: 'Fotografia oficial de perfil (Milla & Equipe)',
-      status: isPhotoConfigured ? 'configured' : 'pending',
+      title: 'Fotografia oficial da Equipe Millari',
+      status: 'configured',
       icon: <Image className="w-4 h-4 text-[#e8b3a0]" />,
-      description: isPhotoConfigured
-        ? 'Fotografia oficial da equipe (La_La.jpg) integrada na seção Sobre a Criadora.'
-        : 'Espaço reservado na seção "Sobre a Criadora" para foto em alta resolução em estúdio ou em gravação.',
-      actionNeeded: isPhotoConfigured
-        ? 'Pronto! Você pode atualizar a foto a qualquer momento pelo botão de câmera no card.'
-        : 'Carregar a foto oficial La_La.jpg diretamente no card.',
+      description: 'Fotografia da Equipe Millari integrada de forma permanente e fixa no código da seção Sobre.',
+      actionNeeded: 'Pronto! A fotografia está incorporada e visível em todos os dispositivos.',
     },
     {
       id: 3,

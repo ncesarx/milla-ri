@@ -93,6 +93,9 @@ server {
     listen 80;
     server_name millari.seudominio.com.br;
 
+    # Permitir upload de fotos em alta resolução
+    client_max_body_size 30M;
+
     location / {
         proxy_pass http://127.0.0.1:3000;
         proxy_http_version 1.1;
