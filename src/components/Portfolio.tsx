@@ -25,7 +25,7 @@ export const Portfolio: React.FC = () => {
               Produções que conectam e geram desejo
             </h2>
             <p className="mt-3 text-sm text-[#f4ece8]/75 max-w-xl">
-              Estrutura visual preparada para exibir Reels verticais, ensaios comerciais e campanhas criativas realizadas para marcas de Piquete e região.
+              Confira os Reels autorais e produções reais da <strong className="text-white">MILLARI</strong> (@milla.rii) em Videomaker, Criação de Conteúdo e Social Media.
             </p>
           </div>
 
@@ -52,16 +52,6 @@ export const Portfolio: React.FC = () => {
               Videomaker (Reels)
             </button>
             <button
-              onClick={() => setActiveFilter('Social Media')}
-              className={`px-3.5 py-1.5 text-xs font-medium rounded-lg transition-colors whitespace-nowrap ${
-                activeFilter === 'Social Media'
-                  ? 'bg-[#8e0e25] text-white shadow-sm'
-                  : 'text-[#e8b3a0]/70 hover:text-white'
-              }`}
-            >
-              Social Media
-            </button>
-            <button
               onClick={() => setActiveFilter('Criação de Conteúdo')}
               className={`px-3.5 py-1.5 text-xs font-medium rounded-lg transition-colors whitespace-nowrap ${
                 activeFilter === 'Criação de Conteúdo'
@@ -71,26 +61,17 @@ export const Portfolio: React.FC = () => {
             >
               Criação de Conteúdo
             </button>
+            <button
+              onClick={() => setActiveFilter('Social Media')}
+              className={`px-3.5 py-1.5 text-xs font-medium rounded-lg transition-colors whitespace-nowrap ${
+                activeFilter === 'Social Media'
+                  ? 'bg-[#8e0e25] text-white shadow-sm'
+                  : 'text-[#e8b3a0]/70 hover:text-white'
+              }`}
+            >
+              Social Media
+            </button>
           </div>
-        </div>
-
-        {/* Clear editorial note complying with instructions */}
-        <div className="mb-8 p-3.5 rounded-lg bg-[#1a0409] border border-dashed border-[#e8b3a0]/30 flex items-center justify-between text-xs text-[#e8b3a0]/90">
-          <span className="flex items-center gap-2">
-            <Film className="w-4 h-4 text-[#e8b3a0]" />
-            <span>
-              [Estrutura de Portfólio Editável: Pronta para receber os vídeos, Reels autorais e links reais da profissional]
-            </span>
-          </span>
-          <a
-            href={SITE_CONFIG.instagramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1 font-semibold text-white hover:text-[#e8b3a0] underline underline-offset-4"
-          >
-            <span>Ver feed oficial no Instagram</span>
-            <ExternalLink className="w-3 h-3" />
-          </a>
         </div>
 
         {/* Gallery Grid (Vertical 9:16 Cards) */}
@@ -110,37 +91,40 @@ export const Portfolio: React.FC = () => {
 
                 {/* Top reel details */}
                 <div className="relative z-10 flex items-center justify-between text-[11px] text-[#e8b3a0]">
-                  <span className="font-medium tracking-wider uppercase bg-[#120306]/70 px-2 py-0.5 rounded backdrop-blur-sm">
+                  <span className="font-medium tracking-wider uppercase bg-[#120306]/80 px-2 py-0.5 rounded backdrop-blur-sm border border-[#e8b3a0]/20">
                     {project.serviceType}
                   </span>
-                  <span className="font-mono text-[10px] bg-[#120306]/70 px-1.5 py-0.5 rounded">
-                    {project.duration}
+                  <span className="font-mono text-[10px] bg-[#8e0e25] text-white px-2 py-0.5 rounded font-semibold flex items-center gap-1">
+                    <Instagram className="w-3 h-3" /> Reel
                   </span>
                 </div>
 
                 {/* Center Play Button Graphic */}
                 <div className="relative z-10 my-auto text-center space-y-3">
-                  <div className="w-14 h-14 mx-auto rounded-full bg-[#8e0e25]/90 border border-[#e8b3a0]/40 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#a5122e] transition-transform">
-                    <Play className="w-6 h-6 fill-white translate-x-0.5" />
+                  <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-[#8e0e25] to-[#c01235] border border-[#e8b3a0]/50 text-white flex items-center justify-center shadow-[0_4px_20px_rgba(142,14,37,0.5)] group-hover:scale-110 group-hover:brightness-110 transition-transform">
+                    <Play className="w-7 h-7 fill-white translate-x-0.5" />
                   </div>
                   <div className="space-y-1">
                     <p className="font-editorial text-lg font-medium text-white px-2 leading-tight">
                       {project.title}
                     </p>
-                    <p className="text-[11px] text-[#e8b3a0]/70">
+                    <p className="text-[11px] text-[#e8b3a0]/80">
                       {project.segment}
                     </p>
                   </div>
                 </div>
 
                 {/* Bottom Overlay Info */}
-                <div className="relative z-10 pt-2 border-t border-[#e8b3a0]/15 flex items-center justify-between text-[11px] text-[#e8b3a0]/70">
-                  <span>Toque para detalhes</span>
+                <div className="relative z-10 pt-2 border-t border-[#e8b3a0]/15 flex items-center justify-between text-[11px] text-[#e8b3a0]/80">
+                  <span className="flex items-center gap-1 font-medium text-white">
+                    <Instagram className="w-3.5 h-3.5 text-[#e8b3a0]" />
+                    Ver Reel oficial
+                  </span>
                   <ArrowUpRight className="w-3.5 h-3.5 text-[#e8b3a0] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </div>
 
                 {/* Dark gradient shadow on hover */}
-                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                <div className="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
               </div>
 
               {/* Bottom Card Context */}
@@ -149,19 +133,31 @@ export const Portfolio: React.FC = () => {
                   <h3 className="font-editorial text-base font-semibold text-white">
                     {project.title}
                   </h3>
-                  <p className="text-xs text-[#f4ece8]/70 mt-1 line-clamp-2">
+                  <p className="text-xs text-[#f4ece8]/75 mt-1 line-clamp-2">
                     {project.description}
                   </p>
                 </div>
 
-                <div className="mt-3 pt-2 border-t border-[#e8b3a0]/10 flex items-center justify-between text-[11px]">
-                  <span className="text-[#e8b3a0]/80">{project.tag}</span>
-                  <button
-                    onClick={() => setSelectedProject(project)}
-                    className="text-white hover:text-[#e8b3a0] font-medium transition-colors"
-                  >
-                    Ver detalhes
-                  </button>
+                <div className="mt-3 pt-2.5 border-t border-[#e8b3a0]/10 flex items-center justify-between gap-2 text-[11px]">
+                  <span className="text-[#e8b3a0]/80 font-medium">{project.tag}</span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setSelectedProject(project)}
+                      className="text-white hover:text-[#e8b3a0] font-medium transition-colors"
+                    >
+                      Detalhes
+                    </button>
+                    <a
+                      href={project.reelUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#350812] hover:bg-[#4d0c1b] text-[#e8b3a0] hover:text-white transition-colors border border-[#e8b3a0]/20 font-medium"
+                      title="Assistir no Instagram"
+                    >
+                      <Play className="w-2.5 h-2.5 fill-current" />
+                      <span>Assistir</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -176,7 +172,7 @@ export const Portfolio: React.FC = () => {
               <span>Conteúdo contínuo no feed e nos stories</span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-editorial font-medium text-white">
-              Veja mais no Instagram @milla.rii
+              Veja todos os Reels no Instagram @milla.rii
             </h3>
             <p className="text-sm text-[#f4ece8]/80 max-w-xl">
               Acompanhe os bastidores de gravações em Piquete e região, novos Reels entregues, tendências visuais e dicas para fortalecer sua marca.
@@ -196,7 +192,7 @@ export const Portfolio: React.FC = () => {
             </a>
 
             <a
-              href={getWhatsAppUrl('Olá! Vi seus trabalhos no portfólio e gostaria de um vídeo no estilo do seu perfil.')}
+              href={getWhatsAppUrl('Olá! Vi os Reels no portfólio e gostaria de um orçamento para a minha marca.')}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 text-xs font-medium text-[#f4ece8] bg-[#1a0409] hover:bg-[#28050e] border border-[#e8b3a0]/30 rounded-lg transition-colors whitespace-nowrap"
@@ -207,14 +203,14 @@ export const Portfolio: React.FC = () => {
         </div>
       </div>
 
-      {/* Modal with Project Details */}
+      {/* Modal with Project Details & Direct Instagram Reel Player Link */}
       {selectedProject && (
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-in fade-in duration-200"
         >
-          <div className="relative w-full max-w-md bg-[#1a0409] border border-[#e8b3a0]/30 rounded-2xl p-6 shadow-2xl space-y-5">
+          <div className="relative w-full max-w-lg bg-[#1a0409] border border-[#e8b3a0]/30 rounded-2xl p-6 shadow-2xl space-y-5">
             <button
               onClick={() => setSelectedProject(null)}
               className="absolute top-4 right-4 p-2 text-[#e8b3a0]/70 hover:text-white rounded-lg transition-colors"
@@ -224,7 +220,7 @@ export const Portfolio: React.FC = () => {
             </button>
 
             <div className="space-y-1">
-              <span className="text-xs uppercase tracking-widest text-[#e8b3a0]">
+              <span className="text-xs uppercase tracking-widest text-[#e8b3a0] font-medium">
                 {selectedProject.serviceType} · {selectedProject.segment}
               </span>
               <h3 className="text-2xl font-editorial font-medium text-white">
@@ -232,40 +228,60 @@ export const Portfolio: React.FC = () => {
               </h3>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#28050e] border border-[#e8b3a0]/20 space-y-3 text-xs text-[#f4ece8]/90">
-              <div>
-                <span className="font-semibold text-[#e8b3a0] block mb-1">
-                  Proposta editorial & Formato:
+            {/* Direct Reel Action Box */}
+            <div className="p-4 rounded-xl bg-gradient-to-br from-[#2f0611] to-[#1c040a] border border-[#e8b3a0]/25 space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-xs text-[#e8b3a0]">
+                  <Instagram className="w-4 h-4 text-[#e8b3a0]" />
+                  <span className="font-semibold text-white">Reel Oficial no Instagram</span>
+                </div>
+                <span className="text-[11px] font-mono text-[#e8b3a0]/70 bg-black/40 px-2 py-0.5 rounded border border-[#e8b3a0]/20">
+                  {selectedProject.tag}
                 </span>
-                <p className="leading-relaxed">{selectedProject.description}</p>
               </div>
 
-              <div>
-                <span className="font-semibold text-[#e8b3a0] block mb-1">
-                  Objetivo estratégico para o negócio:
-                </span>
-                <p className="leading-relaxed">{selectedProject.objective}</p>
+              <div className="space-y-2 text-xs text-[#f4ece8]/90">
+                <div>
+                  <span className="font-semibold text-[#e8b3a0] block mb-0.5">
+                    Proposta & Formato:
+                  </span>
+                  <p className="leading-relaxed">{selectedProject.description}</p>
+                </div>
+
+                <div>
+                  <span className="font-semibold text-[#e8b3a0] block mb-0.5">
+                    Objetivo estratégico:
+                  </span>
+                  <p className="leading-relaxed">{selectedProject.objective}</p>
+                </div>
               </div>
 
-              <div className="p-2.5 rounded bg-[#160307] text-[11px] text-[#e8b3a0]/80 border border-dashed border-[#e8b3a0]/25">
-                <span>[Espaço reservado: Inserir link do Reel oficial do Instagram ou arquivo .mp4 correspondente]</span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 pt-2">
+              {/* Primary Action Button: Watch directly on Instagram */}
               <a
-                href={SITE_CONFIG.instagramUrl}
+                href={selectedProject.reelUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-gradient-to-r from-[#8e0e25] to-[#c01235] text-xs font-semibold text-white shadow-md hover:brightness-110 transition-all"
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-[#8e0e25] via-[#a8102d] to-[#c01235] text-xs font-semibold text-white shadow-lg hover:brightness-110 active:scale-[0.99] transition-all"
               >
-                <Instagram className="w-4 h-4" />
-                <span>Ver no perfil @milla.rii</span>
+                <Play className="w-4 h-4 fill-white" />
+                <span>Assistir a este Reel no Instagram</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+
+            <div className="flex items-center justify-between gap-3 pt-1">
+              <a
+                href={getWhatsAppUrl(`Olá! Vi o trabalho "${selectedProject.title}" (${selectedProject.serviceType}) no site e gostaria de solicitar um orçamento similar.`)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-[#e8b3a0] hover:text-white font-medium hover:underline transition-colors"
+              >
+                Solicitar orçamento para este formato →
               </a>
 
               <button
                 onClick={() => setSelectedProject(null)}
-                className="py-3 px-4 rounded-lg bg-[#25050e] text-xs text-[#f4ece8] hover:bg-[#350812] transition-colors"
+                className="py-2.5 px-4 rounded-lg bg-[#25050e] text-xs text-[#f4ece8] hover:bg-[#350812] transition-colors border border-[#e8b3a0]/20"
               >
                 Fechar
               </button>
